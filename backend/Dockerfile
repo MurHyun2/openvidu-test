@@ -1,16 +1,12 @@
-FROM openjdk:17-jdk-slim
-
+FROM maven:3.9-amazoncorretto-17 AS builder
 WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
-
 COPY src ./src
 RUN mvn package -DskipTests
 
-FROM openjdk:17-jre-slim
-
+FROM amazoncorretto:17-al2023-jre
 WORKDIR /app
 COPY --from=builder /app/target/*.jar ./app.jar
-
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
