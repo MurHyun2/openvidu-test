@@ -1,21 +1,20 @@
 {
-  "name": "openvidu-library-react",
+  "name": "openvidu-react",
   "version": "2.31.0",
   "private": true,
   "dependencies": {
-    "axios": "0.19.2",
-    "openvidu-react": "2.26.0",
-    "react": "16.13.0",
-    "react-dom": "16.13.0",
-    "react-scripts": "3.4.0"
+    "axios": "0.21.1",
+    "openvidu-browser": "2.31.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-scripts": "4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {},
   "browserslist": [
     ">0.2%",
     "not dead",

@@ -6,9 +6,9 @@
 
 [![][OpenViduLogo]](http://openvidu.io)
 
-openvidu-library-react
+openvidu-react
 ===
 
-Visit [docs.openvidu.io/en/stable/tutorials/openvidu-library-react/](http://docs.openvidu.io/en/stable/tutorials/openvidu-library-react/)
+Visit [docs.openvidu.io/en/stable/tutorials/openvidu-react/](http://docs.openvidu.io/en/stable/tutorials/openvidu-react/)
 
 [OpenViduLogo]: https://secure.gravatar.com/avatar/5daba1d43042f2e4e85849733c8e5702?s=120
