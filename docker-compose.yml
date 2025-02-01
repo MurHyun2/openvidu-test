@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # React 프론트엔드 (포트 3000)
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:8080  # 백엔드 내부 통신 주소
+      - REACT_APP_OPENVIDU_URL=https://d204test.p-e.kr:4443
+    depends_on:
+      - backend
+
+  # SpringBoot 백엔드 (포트 8080)
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - OPENVIDU_URL=https://d204test.p-e.kr:4443  # OpenVidu 서버 내부 주소
+      - OPENVIDU_SECRET=1234        # ⚠️ 실제 시크릿 키로 변경
+    depends_on:
+      - openvidu
+
+  # OpenVidu 서버 (포트 4443)
+  openvidu:
+    image: openvidu/openvidu-server-kms:2.31.0
+    ports:
+      - "4443:4443"
+    environment:
+      - OPENVIDU_SECRET=1234        # ⚠️ 백엔드와 동일한 키 사용
+      - OPENVIDU_PUBLICURL=https://d204test.p-e.kr # ⚠️ 실제 도메인으로 변경
+    restart: unless-stopped
