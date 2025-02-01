@@ -1,37 +1,31 @@
 FROM node:16-alpine3.16
 
-# 기본 도구 설치 및 npm 설정
-RUN apk add --no-cache git && \
-    npm config set registry https://registry.npmjs.org/ && \
-    npm config set fetch-retries 5 && \
-    npm config set fetch-retry-mintimeout 20000 && \
-    npm config set fetch-retry-maxtimeout 120000
+# 필수 시스템 도구 설치
+RUN apk add --no-cache python3 make g++
 
-# 작업 디렉토리 설정
+# npm 9+로 업그레이드 (Node 16 호환)
+RUN npm install -g npm@9
+
 WORKDIR /openvidu-library-react
 
-# 패키지 파일만 먼저 복사하여 의존성 설치 (캐시 활용)
+# 패키지 파일 분리 복사 (캐싱 최적화)
 COPY package*.json ./
 
-# 의존성 설치
-RUN npm install --legacy-peer-deps
+# 강제 설치 및 경고 억제
+RUN npm config set fund false && \
+    npm install --legacy-peer-deps --force --omit=optional
 
-# 나머지 소스 복사
+# 소스 코드 복사
 COPY . .
 
-# 빌드 실행
+# 프로덕션 빌드
 RUN npm run build && \
-    mkdir -p ./openvidu-basic-node/public && \
-    cp -r ./build/* ./openvidu-basic-node/public/
+    cp -r ./build ./openvidu-basic-node/public
 
-# openvidu-basic-node 설정
+# 후속 단계 유지
 RUN cp -r ./openvidu-basic-node /opt/openvidu-basic-node && \
-    cd /opt/openvidu-basic-node && \
-    npm install
+    npm --prefix /opt/openvidu-basic-node install
 
 WORKDIR /opt/openvidu-basic-node
-
 COPY docker/entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
 ENTRYPOINT ["./entrypoint.sh"]
