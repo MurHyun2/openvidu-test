@@ -3,5 +3,5 @@ server:
   ssl:
     enabled: 'false'
 
-OPENVIDU_URL: https://d204test.p-3.kr:4443/
+OPENVIDU_URL: https://d204test.p-e.kr:4443/
 OPENVIDU_SECRET: 1234
