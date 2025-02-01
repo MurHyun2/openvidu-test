@@ -5,7 +5,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn package -DskipTests
 
-FROM amazoncorretto:17-al2023-jre
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:17
 WORKDIR /app
 COPY --from=builder /app/target/*.jar ./app.jar
 EXPOSE 8080
